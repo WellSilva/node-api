@@ -4,7 +4,10 @@ const orm = require("../schema/models")
 
 const bookRepository = require("./repositories/book")
 
+const bookCreateEndpoint = require("./endpoints/book.create")
 const bookListEndpoint = require("./endpoints/book.list")
+const bookReadEndpoint = require("./endpoints/book.read")
+const bookUpdateEndpoint = require("./endpoints/book.update")
 
 describe("API UP", () => {
     it("Api should return message and code 200", (done) => {
@@ -17,7 +20,7 @@ describe("API UP", () => {
     })
 })
 
-describe("Testing repositories", () => {
+describe("Testing repositories", async() => {
     before(async() => {
         await orm.sequelize.sync({force: true})
     })
@@ -26,6 +29,16 @@ describe("Testing repositories", () => {
 
     describe("Book", async () => {
         await bookRepository(rep, should)
+    }) 
+
+    const books = await rep.book.list()
+    
+    describe("Book - Read", () => {
+        bookReadEndpoint(request, should, books[0].id)
+    }) 
+
+    describe("Book - Update", () => {
+        bookUpdateEndpoint(request, should, rep)
     }) 
 
     describe("Book - List", async () => {

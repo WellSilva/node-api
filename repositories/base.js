@@ -13,8 +13,7 @@ class BaseRepository {
     }
 
     async list() {
-        console.log(process.env.NODE_ENV)
-        return await this.orm[this.model].findAll()
+        return this.orm[this.model].findAll()
     }
 
     async create(values) {
