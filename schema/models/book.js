@@ -25,6 +25,7 @@ module.exports = (instance, dataTypes) => {
         type: dataTypes.INTEGER,
     },
     ...shared.fields,
+
   }
 
   const model = instance.define("book", schema, {

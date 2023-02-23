@@ -5,6 +5,9 @@ const orm = require("../schema/models")
 const bookRepository = require("./repositories/book")
 
 const bookListEndpoint = require("./endpoints/book.list")
+const bookCreateEndpoint = require("./endpoints/book.create")
+const bookReadEndpoint = require("./endpoints/book.read")
+const bookUpdateEndpoint = require("./endpoints/book.update")
 
 describe("API UP", () => {
     it("Api should return message and code 200", (done) => {
@@ -23,6 +26,7 @@ describe("Testing repositories", () => {
     })
     
     const rep = require("../repositories")(orm)
+    const modules = require("../modules")(rep)
 
     describe("Book", async () => {
         await bookRepository(rep, should)
@@ -30,6 +34,18 @@ describe("Testing repositories", () => {
 
     describe("Book - List", async () => {
         await bookListEndpoint(request, should)
-    }) 
+    })
+
+    describe("Book - Create", async () => {
+        await bookCreateEndpoint(request, should);
+    })
+
+    describe("Book - Read", async () => {
+        await bookReadEndpoint(request, should, modules);
+    })
+
+    describe("Book - Update", async () => {
+        await bookUpdateEndpoint(request, should,modules);
+    })
 })
 
